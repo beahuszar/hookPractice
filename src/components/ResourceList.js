@@ -4,19 +4,21 @@ import axios from "axios";
 const ResourceList = ({ resource }) => {
   const [resources, setResources] = useState([]);
 
-  const fetchResource = async resource => {
-    const response = await axios.get(
-      `https://jsonplaceholder.typicode.com/${resource}`
-    );
-
-    setResources(response.data);
-  };
-
   // [] input => checks whether the value has changed (prevProps)
   // if so, updates the "state", no manual check needed
   // like in case of componentDidUpdate
+  // if no value in [] === componentDidMount
+  // SYNTAX
+  // (input) => console.log(input) -- definition only, not called immediately
+  // ((input) => console.log(input))('hello world') -- will be called immediately with 'hello world'
   useEffect(() => {
-    fetchResource(resource);
+    (async resource => {
+      const response = await axios.get(
+        `https://jsonplaceholder.typicode.com/${resource}`
+      );
+
+      setResources(response.data);
+    })(resource);
   }, [resource]);
 
   return <div>{resources.length}</div>;
